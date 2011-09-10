@@ -1,5 +1,5 @@
 name: ServerWarp
-main: me.krotn.ServerSave.ServerWarp
+main: me.krotn.ServerWarp.ServerWarp
 version: 0.1
 author: Krotn
 commands:

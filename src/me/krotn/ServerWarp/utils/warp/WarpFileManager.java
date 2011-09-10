@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Hashtable;
+import me.krotn.ServerWarp.utils.LogManager;
+
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -13,15 +15,18 @@ import org.bukkit.World;
 public class WarpFileManager {
     private File warpFile;
     private Server server;
+    private LogManager logMan;
     private Hashtable<String,Location> warps = new Hashtable<String,Location>();
     
-    public WarpFileManager(File warpFile,Server server){
+    public WarpFileManager(File warpFile,Server server,LogManager logMan){
         this.warpFile = warpFile;
         this.server = server;
+        this.logMan = logMan;
         if(!this.warpFile.exists()){
             try{
                 this.warpFile.createNewFile();
             }catch(Exception e){
+                logMan.severe("Error creating warp file: "+this.warpFile.getName()+"!");
                 e.printStackTrace();
             }
         }
@@ -50,13 +55,15 @@ public class WarpFileManager {
                     }
                 }
                 if(world==null){
-                    continue; //INVALID FORMAT!
+                    this.logMan.warning("Warp, "+name+", in "+warpFile.getName()+" has invalid world. Skipping");
+                    continue;
                 }
                 Location warpLoc = new Location(world,x,y,z,yaw,pitch);
                 warps.put(name, warpLoc);
             }
             in.close();
         }catch(Exception e){
+            logMan.severe("Error loading warp file: "+warpFile.getName()+"!");
             e.printStackTrace();
         }
     }
@@ -67,6 +74,7 @@ public class WarpFileManager {
             result = warpFile.delete();
         }catch(Exception e){
             e.printStackTrace();
+            logMan.severe("Error saving warp file: "+warpFile.getName()+"!");
         }
         try{
             warpFile.createNewFile();
@@ -82,6 +90,7 @@ public class WarpFileManager {
             }   
         }catch(Exception e){
             e.printStackTrace();
+            logMan.severe("Error saving warp file: "+warpFile.getName()+"!");
         }
     }
     

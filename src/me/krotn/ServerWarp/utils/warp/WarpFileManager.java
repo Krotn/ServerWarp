@@ -35,9 +35,9 @@ public class WarpFileManager {
     
     public void load(){
         warps.clear();
+        String line = null;
         try{
             BufferedReader in = new BufferedReader(new FileReader(warpFile));
-            String line = null;
             while((line = in.readLine()) != null){
                 String[] lineVals = line.split(":");
                 String name = toCorrectNameFormat(lineVals[0]);
@@ -64,6 +64,7 @@ public class WarpFileManager {
             in.close();
         }catch(Exception e){
             logMan.severe("Error loading warp file: "+warpFile.getName()+"!");
+            logMan.severe("Error at: \""+line+"\"");
             e.printStackTrace();
         }
     }

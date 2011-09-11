@@ -4,5 +4,19 @@ version: 0.1
 author: Krotn
 commands:
     listwarps:
+        description: Lists all public warps.
+        permission: ServerWarp.warp.list
         usage: |
           /listwarps
+    setwarp:
+        description: Sets a new public warp at your current location.
+        permission: ServerWarp.warp.set
+        usage: /setwarp [name]
+
+permissions:
+    ServerWarp.warp.list:
+        default: true
+        description: Allows the player to see a list of warps.
+    ServerWarp.warp.set:
+        default: op
+        description: Allows the player to set new public warps.

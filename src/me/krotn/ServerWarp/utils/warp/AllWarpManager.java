@@ -62,9 +62,6 @@ public class AllWarpManager {
     }
     
     public PlayerWaypointFileManager getPlayerWaypointManager(String cleanPlayerName){
-        if(!playerHasWaypointManager(cleanPlayerName)){
-            this.addPlayerWaypointManager(cleanPlayerName);
-        }
         for(PlayerWaypointFileManager pwfm:playerWaypoints){
             if(pwfm.isForPlayer(cleanPlayerName)){
                 return pwfm;

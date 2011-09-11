@@ -3,7 +3,10 @@ package me.krotn.ServerWarp;
 import me.krotn.ServerWarp.utils.FileManager;
 import me.krotn.ServerWarp.utils.LogManager;
 import me.krotn.ServerWarp.utils.warp.AllWarpManager;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import me.krotn.ServerWarp.commands.*;
 
 public class ServerWarp extends JavaPlugin{
     private FileManager fileMan;
@@ -32,5 +35,14 @@ public class ServerWarp extends JavaPlugin{
             e.printStackTrace();
         }
         logMan.info("ServerWarp disabled!");
+    }
+    
+    public boolean onCommand(CommandSender sender, Command command, java.lang.String label, java.lang.String[] args){
+        String commandString = command.getName();
+        if(commandString.equalsIgnoreCase("listwarps")){
+            new ListWarps(warpMan.getPublicWarpsManager()).onCommand(sender,command,label,args);
+            return true;
+        }
+        return false;
     }
 }

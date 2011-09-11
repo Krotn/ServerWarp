@@ -10,40 +10,60 @@ import org.bukkit.ChatColor;
 
 public class ListWarps implements CommandExecutor{
     WarpFileManager warpMan;
+    private final int WARPS_PER_LINE = 4;
+    private final int LINES_PER_PAGE = 3;
+    private String warpWord;
+    
+    public ListWarps(WarpFileManager warpMan,String warpWord){
+        this.warpMan = warpMan;
+        this.warpWord = warpWord;
+    }
     
     public ListWarps(WarpFileManager warpMan){
-        this.warpMan = warpMan;
+        this(warpMan,"Warps");
     }
     
     private String makeWarpString(int page){
-        int maxCharsPerLine = 50;
-        int maxLines = 2;
-        String defaultWarpString = ChatColor.GRAY+"Warps:"+ChatColor.WHITE;
-        String warpString = defaultWarpString;
-        String[] warps = warpMan.getWarps();
-        Arrays.sort(warps);
-        int pageCount = 0;
-        int lineCount = 0;
-        String workingString = "";
-        for(String s:warps){
-            workingString = workingString+" "+s;
-            if(workingString.length()>=maxCharsPerLine){
-                warpString = warpString+workingString;
-                workingString = "";
-                lineCount++;
-            }
-            if(lineCount>maxLines){
-                pageCount++;
-                warpString = warpString+workingString;
-                if(pageCount == page){
-                    return warpString;
-                }
-                else{
-                    warpString = defaultWarpString;
-                }
-            }
+        String[] allWarps = warpMan.getWarps();
+        Arrays.sort(allWarps);
+        String[] subWarps = new String[WARPS_PER_LINE*LINES_PER_PAGE];
+        int lowindex = page*(WARPS_PER_LINE*LINES_PER_PAGE);
+        int highindex = (page+1)*(WARPS_PER_LINE*LINES_PER_PAGE);
+        if(lowindex>allWarps.length){
+            return ChatColor.RED+"Invalid page!";
         }
-        return warpString+workingString;
+        int workingIndex = lowindex;
+        int subIndex = 0;
+        while(workingIndex<highindex&&workingIndex<allWarps.length&&subIndex<subWarps.length){
+            subWarps[subIndex] = allWarps[workingIndex];
+            subIndex++;
+            workingIndex++;
+        }
+        String warpString = ChatColor.GRAY+warpWord+": "+ChatColor.WHITE;
+        int linePosCounter = 0;
+        int lineCount = 0;
+        int index = 0;
+        while(lineCount<LINES_PER_PAGE){
+            while(linePosCounter<WARPS_PER_LINE){
+                if(subWarps[index]!=null){
+                    warpString = warpString+subWarps[index]+" ";
+                }
+                linePosCounter++;
+                index++;
+            }
+            warpString = warpString+"\n";
+            linePosCounter=0;
+            lineCount++;
+        }
+        return warpString;
+    }
+    
+    private int countWarps(){
+        return warpMan.getWarps().length;
+    }
+    
+    private int getNumPages(){
+        return (countWarps()/(WARPS_PER_LINE*LINES_PER_PAGE))+1;
     }
     
     public boolean onCommand(CommandSender commandSender, Command command, String label,String[] args) {
@@ -52,12 +72,13 @@ public class ListWarps implements CommandExecutor{
             page = 0;
         }
         else{
-            page = new Integer(args[0]);
+            page = (new Integer(args[0]).intValue())-1;
         }
         String warpString = makeWarpString(page);
         for(String s:warpString.split("\n")){
             commandSender.sendMessage(s);
         }
+        commandSender.sendMessage(ChatColor.GRAY+"["+ChatColor.GREEN+(page+1)+ChatColor.GRAY+"/"+ChatColor.GREEN+getNumPages()+ChatColor.GRAY+"]");
         return true;
     }
     

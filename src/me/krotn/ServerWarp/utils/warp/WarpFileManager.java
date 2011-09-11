@@ -120,7 +120,13 @@ public class WarpFileManager {
     }
     
     public String[] getWarps(){
-        return (String[]) warps.keySet().toArray();
+        String[] warpNames = new String[warps.size()];
+        int index = 0;
+        for(String name:warps.keySet()){
+            warpNames[index] = name;
+            index++;
+        }
+        return warpNames;
     }
     
     public boolean warpExists(String name){

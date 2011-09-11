@@ -2,6 +2,7 @@ package me.krotn.ServerWarp;
 
 import me.krotn.ServerWarp.utils.FileManager;
 import me.krotn.ServerWarp.utils.LogManager;
+import me.krotn.ServerWarp.utils.PermissionManager;
 import me.krotn.ServerWarp.utils.warp.AllWarpManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,11 +13,15 @@ public class ServerWarp extends JavaPlugin{
     private FileManager fileMan;
     private LogManager logMan;
     private AllWarpManager warpMan;
+    private PermissionManager permMan;
     
     public void onEnable(){
         fileMan = new FileManager(this);
         logMan = new LogManager(this.getServer().getLogger(),this);
         warpMan = new AllWarpManager(fileMan,this.getServer(),logMan);
+        permMan = new PermissionManager();
+        this.getConfiguration().load();
+        this.getConfiguration().save();
         logMan.info("ServerWarp enabled!");
     }
     
@@ -30,9 +35,13 @@ public class ServerWarp extends JavaPlugin{
         }
         try{
             warpMan.savePlayerWaypoints();
+            logMan.info("Saved waypoints!");
         }catch(Exception e){
             logMan.severe("Error saving player waypoints! Player waypoints may not have been saved!");
             e.printStackTrace();
+        }
+        if(!this.getConfiguration().save()){
+            logMan.severe("There was a problem saving the configuration to disk!");
         }
         logMan.info("ServerWarp disabled!");
     }
@@ -40,8 +49,10 @@ public class ServerWarp extends JavaPlugin{
     public boolean onCommand(CommandSender sender, Command command, java.lang.String label, java.lang.String[] args){
         String commandString = command.getName();
         if(commandString.equalsIgnoreCase("listwarps")){
-            new ListWarps(warpMan.getPublicWarpsManager()).onCommand(sender,command,label,args);
-            return true;
+            if(permMan.hasPermission(sender, "warp.list")){
+                new ListWarps(warpMan.getPublicWarpsManager(),getConfiguration().getString("output.warpList.warpTitle","Warps")).onCommand(sender,command,label,args);
+                return true;
+            }
         }
         return false;
     }

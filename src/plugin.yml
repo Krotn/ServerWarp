@@ -3,3 +3,6 @@ main: me.krotn.ServerWarp.ServerWarp
 version: 0.1
 author: Krotn
 commands:
+    listwarps:
+        usage: |
+          /listwarps

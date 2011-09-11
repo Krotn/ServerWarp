@@ -1,7 +1,6 @@
 package me.krotn.ServerWarp.commands;
 
 import java.util.Arrays;
-
 import me.krotn.ServerWarp.utils.warp.WarpFileManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

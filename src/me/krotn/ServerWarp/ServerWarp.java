@@ -50,8 +50,14 @@ public class ServerWarp extends JavaPlugin{
         String commandString = command.getName();
         if(commandString.equalsIgnoreCase("listwarps")){
             if(permMan.hasPermission(sender, "warp.list")){
-                new ListWarps(warpMan.getPublicWarpsManager(),getConfiguration().getString("output.warpList.warpTitle","Warps")).onCommand(sender,command,label,args);
-                return true;
+                return new ListWarps(warpMan.getPublicWarpsManager(),getConfiguration().getString("output.warpList.warpTitle","Warps")).onCommand(sender,command,label,args);
+            }
+        }
+        if(commandString.equalsIgnoreCase("setwarp")){
+            if(permMan.hasPermission(sender, "warp.set")){
+                return new SetWarp(warpMan.getPublicWarpsManager(),getConfiguration().getString("output.warpSet.success","Warp set!"),
+                                                            getConfiguration().getString("output.warpSet.failAlreadyExists","That warp already exists!"))
+                                                            .onCommand(sender, command, label, args);
             }
         }
         return false;

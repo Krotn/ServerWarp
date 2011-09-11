@@ -3,6 +3,7 @@ package me.krotn.ServerWarp.utils.warp;
 import java.io.File;
 import java.util.ArrayList;
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 import me.krotn.ServerWarp.utils.FileManager;
 import me.krotn.ServerWarp.utils.LogManager;
 
@@ -56,7 +57,14 @@ public class AllWarpManager {
         }
     }
     
+    public PlayerWaypointFileManager getPlayerWaypointManager(Player player){
+        return getPlayerWaypointManager(player.getName());
+    }
+    
     public PlayerWaypointFileManager getPlayerWaypointManager(String cleanPlayerName){
+        if(!playerHasWaypointManager(cleanPlayerName)){
+            this.addPlayerWaypointManager(cleanPlayerName);
+        }
         for(PlayerWaypointFileManager pwfm:playerWaypoints){
             if(pwfm.isForPlayer(cleanPlayerName)){
                 return pwfm;

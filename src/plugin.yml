@@ -12,6 +12,10 @@ commands:
         description: Sets a new public warp at your current location.
         permission: ServerWarp.warp.set
         usage: /setwarp [name]
+    warp:
+        description: Moves the player to a warp.
+        permission: ServerWarp.warp
+        usage: /warp [name]
 
 permissions:
     ServerWarp.warp.list:
@@ -20,3 +24,12 @@ permissions:
     ServerWarp.warp.set:
         default: op
         description: Allows the player to set new public warps.
+    ServerWarp.warp:
+        default: true
+        description: Allows the player to use public warps.
+    ServerWarp.motion.depart:
+        default: true
+        description: Allows the player to leave using tp, warp or waypoint.
+    ServerWarp.motion.arrive:
+        default: true
+        description: Allows the player to arrive using tp, warp or waypoint.

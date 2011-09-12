@@ -64,9 +64,16 @@ public class PlayerTeleportHistoryManager {
             history.add(location);
         }
         ensureSize();
+        System.out.println(history.size());
     }
     
     public Player getPlayer(){
         return player;
+    }
+    
+    public void clear(){
+        this.history.clear();
+        locationPointer = 0;
+        ensureSize();
     }
 }

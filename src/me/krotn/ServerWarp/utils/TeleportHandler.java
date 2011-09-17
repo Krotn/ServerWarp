@@ -40,6 +40,7 @@ public class TeleportHandler {
     }
     
     public void reportTeleport(PlayerTeleportEvent tpEvt){
+        ensurePlayerHistManager(tpEvt.getPlayer());
         if(internalTps.containsKey(tpEvt.getPlayer())){
             if(internalTps.get(tpEvt.getPlayer()).equals(tpEvt.getTo())){
                 internalTps.remove(tpEvt.getPlayer());
@@ -47,7 +48,6 @@ public class TeleportHandler {
                 return;
             }
         }
-        ensurePlayerHistManager(tpEvt.getPlayer());
         histMan.getPlayerHistoryManager(tpEvt.getPlayer()).addToHistory(tpEvt.getTo());
         System.out.println("Stored reported TP!");
     }
@@ -65,5 +65,9 @@ public class TeleportHandler {
                 histMan.getPlayerHistoryManager(player).addToHistory(newLocation);
             }
         }
+    }
+    
+    public AllPlayerTeleportHistoryManager getHistoryManager(){
+        return histMan;
     }
 }

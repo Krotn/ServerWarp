@@ -44,12 +44,10 @@ public class TeleportHandler {
         if(internalTps.containsKey(tpEvt.getPlayer())){
             if(internalTps.get(tpEvt.getPlayer()).equals(tpEvt.getTo())){
                 internalTps.remove(tpEvt.getPlayer());
-                System.out.println("Ignored reported TP!");
                 return;
             }
         }
         histMan.getPlayerHistoryManager(tpEvt.getPlayer()).addToHistory(tpEvt.getTo());
-        System.out.println("Stored reported TP!");
     }
     
     public void doTeleport(Player player,Location newLocation){

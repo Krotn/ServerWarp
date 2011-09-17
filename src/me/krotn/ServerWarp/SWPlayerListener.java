@@ -12,7 +12,6 @@ public class SWPlayerListener extends PlayerListener{
     }
     
     public void onPlayerTeleport(PlayerTeleportEvent event){
-        System.out.println("Player teleport!");
         tpMan.reportTeleport(event);
     }
 }

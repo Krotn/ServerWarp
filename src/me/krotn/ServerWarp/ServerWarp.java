@@ -76,6 +76,14 @@ public class ServerWarp extends JavaPlugin{
                                 .onCommand(sender,command,label,args);
             }
         }
+        if(commandString.equalsIgnoreCase("delwarp")){
+            if(permMan.hasPermission(sender, "warp.delete")){
+                return new DelWarp(warpMan.getPublicWarpsManager(),
+                                   getConfiguration().getString("output.warpDelete.success","Warp deleted!")
+                                   ,getConfiguration().getString("output.warpDelete.notExist","That warp does not exist!"))
+                                   .onCommand(sender, command, label, args);
+            }
+        }
         return false;
     }
 }

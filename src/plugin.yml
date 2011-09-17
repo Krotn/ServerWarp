@@ -16,6 +16,10 @@ commands:
         description: Moves the player to a warp.
         permission: ServerWarp.warp
         usage: /warp [name]
+    delwarp:
+        description: Deletes a warp.
+        permission: ServerWarp.warp.delete
+        usage: /delwarp [name]
 
 permissions:
     ServerWarp.warp.list:
@@ -24,6 +28,9 @@ permissions:
     ServerWarp.warp.set:
         default: op
         description: Allows the player to set new public warps.
+    ServerWarp.warp.delete:
+        default: op
+        description: Allows the player to delete public warps.
     ServerWarp.warp:
         default: true
         description: Allows the player to use public warps.

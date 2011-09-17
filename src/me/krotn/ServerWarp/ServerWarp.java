@@ -29,7 +29,8 @@ public class ServerWarp extends JavaPlugin{
         tpMan = new TeleportHandler(histMan,permMan);
         this.getConfiguration().load();
         this.getConfiguration().save();
-        this.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_TELEPORT, new SWPlayerListener(tpMan), Event.Priority.Normal, this);
+        SWPlayerListener playerListener = new SWPlayerListener(tpMan);
+        this.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_TELEPORT, playerListener, Event.Priority.Normal, this);
         logMan.info("ServerWarp enabled!");
     }
     

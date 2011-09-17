@@ -52,6 +52,11 @@ public class PlayerTeleportHistoryManager {
     }
     
     public void addToHistory(Location location){
+        System.out.println(location);
+        if(history.get(history.size()-1).distance(location)<=1){
+            System.out.println("Location already in history");
+            return;
+        }
         if(locationPointer<history.size()){
             while(history.size()>locationPointer){
                 history.remove(locationPointer);
